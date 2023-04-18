@@ -354,13 +354,10 @@ class MovieLens(
     def load(self):
         """
         Load this dataset into an undirected heterogeneous graph, downloading it if required.
-
         The graph has two types of nodes (``user`` and ``movie``) and one type of edge (``rating``).
-
         The dataset includes some node features on both users and movies: on users, they consist of
         categorical features (``gender`` and ``job``) which are one-hot encoded into binary
         features, and an ``age`` feature that is scaled to have mean = 0 and standard deviation = 1.
-
         Returns:
             A tuple where the first element is a :class:`.StellarGraph` instance containing the graph
             data and features, and the second element is a pandas DataFrame of edges, with columns
@@ -421,7 +418,7 @@ class MovieLens(
             header=None,
             names=movie_columns,
             usecols=["movie_id"] + movie_columns[5:],
-            encoding="iso-8859-1",
+            encoding="iso-8859-1"
         )
 
         # manage the IDs
@@ -449,9 +446,10 @@ class MovieLens(
 
         g = StellarGraph(
             {"user": encoded_users, "movie": movies},
-            {"rating": edges[["user_id", "movie_id"]]},
+            {"rating": edges[["user_id", "movie_id", "rating"]]},
             source_column="user_id",
             target_column="movie_id",
+            edge_weight_column="rating"
         )
         return g, edges
 
